@@ -40,3 +40,8 @@ def run_threaded(iterator, parallel=-1):
         except GeneratorExit: return
         except queue.Empty:   break
 
+def threaded_func(func):
+    def inner(*args, **kwargs):
+        parallel = kwargs.pop('parallel', -1)
+        return run_threaded(func(*args, **kwargs), parallel)
+    return inner
